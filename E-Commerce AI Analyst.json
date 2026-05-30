@@ -1,0 +1,159 @@
+{
+  "name": "E-Commerce AI Analyst",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -512,
+        -176
+      ],
+      "id": "77ef0d11-6399-4a16-bf02-a9c06efdf8d2",
+      "name": "Chat UI Trigger",
+      "webhookId": "64cb59a9-470d-449b-ad26-d97ce085c422"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an expert E-Commerce Data Analyst. Your job is to answer the user's questions about store performance. You have access to a Google Sheet containing raw sales columns (Date, Customer Email, Product SKU, Amount, Region). Always use your Google Sheets tool to check the raw data before making any conclusions or calculating totals. Be concise and professional."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -232,
+        -176
+      ],
+      "id": "3b9f4ec3-7549-4c8b-a8e6-4b59e2b88ad2",
+      "name": "E-Commerce Assistant Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -384,
+        48
+      ],
+      "id": "9bec3cf8-07e1-41cb-95a7-6016204136d6",
+      "name": "Gemini LLM Engine",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "boBsjSyUiJPjhgYM",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -160,
+        48
+      ],
+      "id": "5cc1e9e5-9b1b-44e4-838c-90e70fa2aecd",
+      "name": "Chat Session Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "You are an E-Commerce Assistant with access to both store sales transactions and warehouse inventory/stock metrics via your Google Sheets tool. Use the sheet data to answer any questions about item availability, quantities remaining, or order history.\n\nNote: In the data sheet, the 'Amount' column represents the unit price of the product. When a user asks for the price of an item, refer to the value in the 'Amount' column.",
+        "documentId": {
+          "__rl": true,
+          "value": "1-7lAX3G5VjJ-0EKu8tHt0Ig4tcXDDtPaZziFlAfmKFQ",
+          "mode": "list",
+          "cachedResultName": "Mock E-commerce Store Sales",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-7lAX3G5VjJ-0EKu8tHt0Ig4tcXDDtPaZziFlAfmKFQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1403381655,
+          "mode": "list",
+          "cachedResultName": "Mock E-commerce Store Sales",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-7lAX3G5VjJ-0EKu8tHt0Ig4tcXDDtPaZziFlAfmKFQ/edit#gid=1403381655"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        112,
+        32
+      ],
+      "id": "39da5ff1-2623-4c7e-ae1c-b388755f229d",
+      "name": "Read Store Inventory DB",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8iQBxyDkEuoO5reQ",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Chat UI Trigger": {
+      "main": [
+        [
+          {
+            "node": "E-Commerce Assistant Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini LLM Engine": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "E-Commerce Assistant Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Session Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "E-Commerce Assistant Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Store Inventory DB": {
+      "ai_tool": [
+        [
+          {
+            "node": "E-Commerce Assistant Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1f03b08f-d32b-4319-86cc-e7053c9af1eb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b12135670ea4443e69812b5aad22a64a697916a863067bd5a463f35167516c3"
+  },
+  "id": "ZpToqm7xG4tnOz0x",
+  "tags": []
+}
