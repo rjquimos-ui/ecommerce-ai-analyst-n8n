@@ -18,6 +18,7 @@ Built utilizing advanced tool-calling routing schemas where the agent autonomous
 A unified transaction registry tracking historical amounts, active warehouse availability indexes, and execution criteria flags:
 ![Google Sheets Database](sheets-database.png)
 
+https://docs.google.com/spreadsheets/d/1-7lAX3G5VjJ-0EKu8tHt0Ig4tcXDDtPaZziFlAfmKFQ/edit?usp=sharing
 ---
 
 ## 🛠️ Technology Stack & Dependencies
